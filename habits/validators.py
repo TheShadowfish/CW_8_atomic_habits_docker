@@ -7,7 +7,7 @@ class HabitsValidator:
 
     def __call__(self, value):
         value = dict(value)
-        print(value.get('duration'))
+
         if value.get('is_good'):
             if value.get('related') or value.get('prize'):
                 raise serializers.ValidationError(
@@ -18,6 +18,7 @@ class HabitsValidator:
 
 
             if value.get('duration') > 120:
+                print(value.get('duration'))
                 raise serializers.ValidationError(
                     'Длительность привычки не может быть больше 2 часов')
             if value.get('related'):
