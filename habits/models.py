@@ -50,6 +50,13 @@ class Habits(models.Model):
     duration = models.SmallIntegerField(verbose_name='Время на выполнение (в минутах)')
     is_public = models.BooleanField(default=True, verbose_name='Публичная', choices=PUBLIC_CHOICES)
 
+    created_at = models.DateTimeField(**NULLABLE, verbose_name="Дата создания", help_text="Укажите дату создания",
+        auto_now_add=True,
+    )
+    updated_at = models.DateTimeField(**NULLABLE, verbose_name="Дата изменения", help_text="Укажите дату изменения",
+        auto_now=True,
+    )
+
      # is_daily = models.BooleanField(default=False, choices=PERIOD_CHOICES, verbose_name='Периодичность')
 
 

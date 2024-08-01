@@ -1,11 +1,12 @@
 from rest_framework import serializers
 
 from habits.models import Habits
-# from habits.validators import HabitsValidator
+from habits.validators import HabitsValidator
 
 
 class HabitSerializer(serializers.ModelSerializer):
+    validators = [HabitsValidator(field='all')]
     class Meta:
         model = Habits
         fields = '__all__'
-        # validators = [HabitsValidator]
+        validators = [HabitsValidator]

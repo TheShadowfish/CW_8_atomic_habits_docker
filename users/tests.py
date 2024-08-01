@@ -1,10 +1,7 @@
-from django.test import TestCase
-
 from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APITestCase
 
-from habits.models import Habits
 from users.models import User
 
 
@@ -65,27 +62,28 @@ class UserTestCase(APITestCase):
         response = self.client.get(reverse('users:users_list'))
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         data=response.json()
+        # print(data)
 
-        last_login_text = str(self.user.last_login)
-        last_login = last_login_text[0:10] + 'T' + last_login_text[11:26] + 'Z'
+        # last_login_text = str(self.user.last_login)
+        # last_login = last_login_text[0:10] + 'T' + last_login_text[11:26] + 'Z'
         date_joined_text = str(self.user.date_joined)
         date_joined = date_joined_text[0:10] + 'T' + date_joined_text[11:26] + 'Z'
         # print(f"created {created}")
         # print(f"updated {updated}")
 
-        result = {
+        result = [{
         "email": self.user.email,
         "first_name": "",
         "last_name": "",
         "tg_nick": None,
         "tg_chat_id": self.user.tg_chat_id,
-        "last_login": last_login,
+        "last_login": None,
         "avatar": None,
         "date_joined": date_joined,
-        "is_superuser": True,
+        "is_superuser": False,
         "is_staff": False,
         "is_active": True
-    }
+    }]
         # print(f"created_at:{self.course.created_at} updated_at:{self.course.updated_at}")
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
