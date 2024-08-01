@@ -13,12 +13,12 @@ app_name = UsersConfig.name
 
 
 urlpatterns = [
-    path("users/<int:pk>/retrieve_update/", UserRetrieveUpdateAPIView.as_view(), name="users_retrieve_update"),
+    path("retrieve_update/<int:pk>/", UserRetrieveUpdateAPIView.as_view(), name="users_retrieve_update"),
     path('register/', UserCreateAPIView.as_view(), name='register'),
     path('login/', TokenObtainPairView.as_view(permission_classes=(AllowAny,)), name='token_obtain_pair'),
     path('token/refresh/', TokenRefreshView.as_view(permission_classes=(AllowAny,)), name='token_refresh'),
 
     # path("users/create/", UserCreateAPIView.as_view(), name="users_create"),
     # path("users/<int:pk>/delete/", UserDestroyAPIView.as_view(), name="users_delete"),
-    path("users/", UserListAPIView.as_view(), name="users"),
+    path("list/", UserListAPIView.as_view(), name="users_list"),
 ]
