@@ -1,4 +1,5 @@
 import os
+from datetime import timedelta
 from pathlib import Path
 from dotenv import load_dotenv
 
@@ -30,6 +31,10 @@ INSTALLED_APPS = [
 
     'users',
     'habits',
+
+    'rest_framework_simplejwt',
+    'drf_yasg',
+    "django_celery_beat",
 ]
 
 MIDDLEWARE = [
@@ -99,7 +104,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'ru-ru'
 
 TIME_ZONE = 'UTC'
 
@@ -124,5 +129,38 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = "users.User"
 
 REST_FRAMEWORK = {
-    "DEFAULT_FILTER_BACKENDS": ["django_filters.rest_framework.DjangoFilterBackend"]
+    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
+
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
+
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',
+    ]
 }
+#  'rest_framework.permissions.IsAuthenticated',
+SIMPLE_JWT = {
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=60),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
+    'UPDATE_LAST_LOGIN': True
+}
+
+# Celery Configuration Options
+CELERY_TIMEZONE = TIME_ZONE
+CELERY_TASK_TRACK_STARTED = True
+CELERY_TASK_TIME_LIMIT = 30 * 60
+
+# set the celery broker url
+CELERY_BROKER_URL = os.getenv("CELERY_BROKER_URL")
+
+# set the celery result backend
+CELERY_RESULT_BACKEND = os.getenv("CELERY_RESULT_BACKEND")
+
+# CELERY_BEAT_SCHEDULE = {
+#     "block_users_who_was_absent_last_mount": {
+#         "task": "courses.tasks.block_users_who_was_absent_last_mount",
+#         "schedule": timedelta(minutes=1),  # Run every day at 00:00
+#         "kwargs": {"block_absent": True, "timedelta_days": 30}
+#     }
+# }
