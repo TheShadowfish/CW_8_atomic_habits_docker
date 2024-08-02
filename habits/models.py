@@ -6,7 +6,6 @@ NULLABLE = {"blank": True, "null": True}
 
 
 class Habits(models.Model):
-
     IS_NICE_CHOICES = (
         (True, "Приятная"),
         (False, "Нет"),
@@ -16,6 +15,12 @@ class Habits(models.Model):
         (True, "Публичная"),
         (False, "Нет"),
     )
+    DAY_OF_WEEK_CHOICES = (
+        (True, "Да"),
+        (False, "Нет"),
+    )
+
+
     owner = models.ForeignKey(
         AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name="Пользователь"
     )
@@ -40,6 +45,18 @@ class Habits(models.Model):
     duration = models.SmallIntegerField(verbose_name="Время на выполнение (в минутах) ")
     is_public = models.BooleanField(
         default=True, verbose_name="Публичная", choices=PUBLIC_CHOICES
+    )
+    # Дни недели
+    monday = models.BooleanField(default=True, verbose_name="Понедельник", choices=DAY_OF_WEEK_CHOICES)
+    tuesday = models.BooleanField(default=True, verbose_name="Вторник", choices=DAY_OF_WEEK_CHOICES)
+    wednesday = models.BooleanField(default=True, verbose_name="Среда", choices=DAY_OF_WEEK_CHOICES)
+    thursday = models.BooleanField(default=True, verbose_name="Четверг", choices=DAY_OF_WEEK_CHOICES)
+    friday = models.BooleanField(default=True, verbose_name="Пятница", choices=DAY_OF_WEEK_CHOICES)
+    saturday = models.BooleanField(default=True, verbose_name="Суббота", choices=DAY_OF_WEEK_CHOICES)
+    sunday = models.BooleanField(default=True, verbose_name="Воскресенье", choices=DAY_OF_WEEK_CHOICES)
+
+    is_nice = models.BooleanField(
+        default=True, verbose_name="Приятная", choices=IS_NICE_CHOICES
     )
 
     created_at = models.DateTimeField(

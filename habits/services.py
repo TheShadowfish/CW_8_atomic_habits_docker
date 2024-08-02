@@ -1,11 +1,13 @@
+from celery.loaders import app
+from celery.schedules import crontab
+
 from config import settings
 import requests
 
 import json
 from datetime import datetime, timedelta
 
-from django_celery_beat.models import PeriodicTask, IntervalSchedule
-
+from django_celery_beat.models import PeriodicTask
 
 
 def send_telegram_message(chat_id, message):
@@ -18,44 +20,42 @@ def send_telegram_message(chat_id, message):
     requests.get(f'{settings.TELEGRAM_URL}{settings.TELEGRAM_TOKEN}/sendMessage', params=params)
 
 
-def create_periodic_task(**kwargs):
+def create_periodic_task(username, habit_id, hour, minute, week_list, message, chat_id):
     """Создает периодическую задачу"""
-
-    schedule, created = IntervalSchedule.objects.get_or_create(
-        every=10,
-        period=IntervalSchedule.SECONDS,
-    )
-
     # Создаем задачу для повторения
-    PeriodicTask.objects.create(
-        interval=schedule,
-        name='Importing contacts',
-        task='proj.tasks.import_contacts',
-        args=json.dumps(['arg1', 'arg2']),
-        kwargs=json.dumps({
-            'be_careful': True,
-        }),
-        expires=datetime.utcnow() + timedelta(seconds=30)
-    )
+    # Executes every day_of_week morning at hour:minute
+    # PeriodicTask.objects.create(
+    #     interval=crontab(hour=hour, minute=minute, day_of_week=week_list),
+    #     name=f'habit_{habit_id}_{username}',
+    #     task='send_information_about_habit',
+    #     kwargs=json.dumps({
+    #         'message': message,
+    #         'tg_chat_id': chat_id
+    #     }),
+    #     expires=datetime.utcnow() + timedelta(seconds=30)
+    # )
+    # return periodic_task
 
-
-    name = kwargs.get('name')
-    task = kwargs.get('task')
-    schedule = kwargs.get('schedule')
-    kwargs = kwargs.get('kwargs', {})
-    expires = kwargs.get('expires')
-
+    # interval=crontab(hour=hour, minute=minute, day_of_week=week_list),
     periodic_task, created = PeriodicTask.objects.get_or_create(
-        name=name,
-        task=task,
-        interval=schedule,
-        kwargs=kwargs,
+        name=f'habit_{habit_id}_{username}',
+        task='send_information_about_habit',
+        interval=crontab(),
+        kwargs=json.dumps({
+            'message': message,
+            'tg_chat_id': chat_id
+        }),
     )
 
     if created:
-        periodic_task.expires = expires
+        periodic_task.expires = datetime.utcnow() + timedelta(seconds=30)
         periodic_task.save()
+    print(f'task={periodic_task}, удалось создать')
 
-    return periodic_task
 
-# Создаем интервал для повтора
+def disable_periodic_task(username, habit_id):
+    task = PeriodicTask.objects.get(name=f'habit_{habit_id}_{username}')
+    task.enabled = False
+    task.save()
+
+    print(f'task={task}, удалось отключить')

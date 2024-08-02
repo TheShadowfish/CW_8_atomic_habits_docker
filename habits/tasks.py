@@ -4,12 +4,12 @@ from habits.services import send_telegram_message
 
 
 @shared_task
-def send_information_about_like(email):
+def send_information_about_habit(message, tg_chat_id):
     """Отправляет сообщение пользователю о поставленном лайке"""
-    message = "Вашей собаке только что поставили лайк"
-    user = User.objects.get(email=email)
-    if user.tg_chat_id:
-        send_telegram_message(user.tg_chat_id, message)
+    # message = "Вашей собаке только что поставили лайк"
+    # user = User.objects.get(email=email)
+    # if user.tg_chat_id:
+    send_telegram_message(tg_chat_id, message)
 
 #
 # @shared_task

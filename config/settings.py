@@ -15,7 +15,6 @@ DEBUG = os.getenv("DEBUG") == "True"
 
 ALLOWED_HOSTS = []
 
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -69,7 +68,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'config.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
@@ -102,7 +100,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
 
@@ -113,7 +110,6 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 
 USE_TZ = True
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
@@ -160,7 +156,6 @@ CSRF_TRUSTED_ORIGINS = [
 
 CORS_ALLOW_ALL_ORIGINS = False
 
-
 # Celery Configuration Options
 CELERY_TIMEZONE = TIME_ZONE
 CELERY_TASK_TRACK_STARTED = True
@@ -179,5 +174,7 @@ CELERY_RESULT_BACKEND = os.getenv("CELERY_RESULT_BACKEND")
 #         "kwargs": {"block_absent": True, "timedelta_days": 30}
 #     }
 # }
-TELEGRAM_URL ="https://api.telegram.org/bot"
+CELERY_BEAT_SCHEDULE = 'django_celery_beat.schedulers:DatabaseScheduler'
+
+TELEGRAM_URL = "https://api.telegram.org/bot"
 TELEGRAM_TOKEN = os.getenv('TELEGRAM_TOKEN')

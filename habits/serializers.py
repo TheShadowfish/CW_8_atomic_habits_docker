@@ -21,11 +21,19 @@ class HabitSerializer(serializers.ModelSerializer):
 
         if data.get('is_nice'):
             if data.get('related') or data.get('prize'):
-                print("CHECK 1 ser log")
                 raise serializers.ValidationError('У приятной привычки не может быть связанной привычки или '
                                                   'вознаграждения')
 
         # В связанные привычки могут попадать только привычки с признаком приятной привычки.
         if data.get('related') and (not data.get('related').is_nice):
             raise serializers.ValidationError('Связанные привычки = приятные привычки')
+
+        # Хотя бы один день в неделю
+        if (data.get('sunday') is False and data.get('monday') is False and data.get('tuesday') is False and
+                data.get('thursday') is False and data.get('friday') is False and data.get('saturday') is False and
+                data.get('wednesday') is False):
+            raise serializers.ValidationError('Хотя бы один день в неделю должен быть выбран!')
+
         return data
+
+

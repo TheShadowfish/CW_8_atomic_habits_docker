@@ -50,7 +50,14 @@ class HabitTestCase(APITestCase):
             "time": "18:00:00",
             "action": "Пойти в магазин за покупками",
             "duration": 60,
-            "periodicity": 1
+            "periodicity": 1,
+            "sunday": True,
+            "monday": True,
+            "tuesday": True,
+            "wednesday": True,
+            "thursday": True,
+            "friday": True,
+            "saturday": True
         }
 
         response = self.client.post(url, data=data)
@@ -63,6 +70,7 @@ class HabitTestCase(APITestCase):
         self.assertEqual(data.get("action"), "Пойти в магазин за покупками")
         self.assertEqual(data.get("duration"), 60)
         self.assertEqual(data.get("periodicity"), 1)
+        self.assertEqual(data.get("friday"), True)
 
     def test_create_habit_duration_periodicy_validator(self):
         """ Тестирование работы валидаиора """
@@ -80,6 +88,27 @@ class HabitTestCase(APITestCase):
         response = self.client.post(url, data=data)
         data = response.json()
 
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
+    def test_create_habit_week_periodicity_validator(self):
+        """ Хотя бы один день в неделе должен быть выбран"""
+        url = reverse("habits:habits_create")
+        data = {
+            "owner": self.user.pk,
+            "place": "Магазин",
+            "time": "18:00:00",
+            "action": "Пойти в магазин за покупками",
+            "duration": 180,
+            "periodicity": 8,
+            "sunday": False,
+            "monday": False,
+            "tuesday": False,
+            "wednesday": False,
+            "thursday": False,
+            "friday": False,
+            "saturday": False
+        }
+        response = self.client.post(url, data=data)
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
     def test_create_habit_logic_good_habits_1(self):
@@ -170,6 +199,7 @@ class HabitTestCase(APITestCase):
         self.assertEqual(data.get("action"), self.habit.action)
         self.assertEqual(data.get("duration"), self.habit.duration)
         self.assertEqual(data.get("periodicity"), self.habit.periodicity)
+        self.assertEqual(data.get("friday"), True)
 
     def test_update_habit(self):
         """ Тестирование изменений привычки """
@@ -193,6 +223,8 @@ class HabitTestCase(APITestCase):
         self.assertEqual(data.get("action"), "Тренировка в фитнес-зале")
         self.assertEqual(data.get("duration"), 120)
         self.assertEqual(data.get("periodicity"), 1)
+        self.assertEqual(data.get("is_nice"), True)
+        self.assertEqual(data.get("sunday"), True)
 
     def test_delete_habit(self):
         """ Тестирование удаления привычки """
