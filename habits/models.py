@@ -25,12 +25,7 @@ NULLABLE = {'blank': True, 'null': True}
 
 class Habits(models.Model):
 
-    PERIOD_CHOICES = (
-        (True, 'Ежедневная'),
-        (False, 'Еженедельная'),
-    )
-
-    IS_GOOD_CHOICES = (
+    IS_NICE_CHOICES = (
         (True, 'Приятная'),
         (False, 'Нет'),
     )
@@ -43,7 +38,7 @@ class Habits(models.Model):
     place = models.CharField(max_length=140, verbose_name='Место')
     time = models.TimeField(verbose_name='Время, когда надо выполнить привычку')
     action = models.CharField(max_length=140, verbose_name='Действие, которое надо сделать')
-    is_good = models.BooleanField(default=True, verbose_name='Приятная', choices=IS_GOOD_CHOICES)
+    is_nice = models.BooleanField(default=True, verbose_name='Приятная', choices=IS_NICE_CHOICES)
     related = models.ForeignKey('self', on_delete=models.SET_NULL, verbose_name='Связанная с другой привычкой', **NULLABLE)
     periodicity = models.SmallIntegerField(default=1, verbose_name='Периодичность (в днях) - от 1 до 7')
     prize = models.CharField(max_length=100, verbose_name='Вознаграждение', **NULLABLE)

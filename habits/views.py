@@ -51,6 +51,10 @@ class HabitsDestroyAPIView(generics.DestroyAPIView):
 
 class HabitsPublicListAPIView(generics.ListAPIView):
     serializer_class = HabitSerializer
-    queryset = Habits.objects.filter(is_public=True)
+    queryset = Habits.objects.all()
     permission_classes = (AllowAny, )
     pagination_class = CustomPagination
+    def get_queryset(self):
+        queryset = Habits.objects.filter(is_public=True)
+        return queryset
+
