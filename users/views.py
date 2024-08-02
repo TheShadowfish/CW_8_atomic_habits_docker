@@ -7,12 +7,14 @@ from users.serializers import UserSerializer, UserLimitedSerializer
 
 
 class UserRetrieveUpdateAPIView(RetrieveUpdateAPIView):
+    """Отображение либо редактирование информации об авторизованном пользователе"""
     queryset = User.objects.all()
     serializer_class = UserSerializer
     permission_classes = (IsUserOwner, IsAuthenticated)
 
 
 class UserListAPIView(ListAPIView):
+    """Список пользователей"""
     queryset = User.objects.all()
     permission_classes = (IsAuthenticated,)
 
