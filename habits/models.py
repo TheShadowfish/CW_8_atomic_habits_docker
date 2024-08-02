@@ -20,7 +20,6 @@ class Habits(models.Model):
         (False, "Нет"),
     )
 
-
     owner = models.ForeignKey(
         AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name="Пользователь", **NULLABLE
     )

@@ -1,5 +1,4 @@
-from celery.loaders import app
-from celery.schedules import crontab
+# from celery.schedules import crontab
 
 from config import settings
 import requests
@@ -12,16 +11,19 @@ from django_celery_beat.models import PeriodicTask, IntervalSchedule
 
 def send_telegram_message(chat_id, message):
     """Функция отправки сообщения в телеграм"""
+
+    print("Пошла вода в хату!")
     params = {
-        'text': message,
-        'chat_id': chat_id,
+        "text": message,
+        "chat_id": chat_id,
     }
     # print(f'{settings.TELEGRAM_URL}{settings.TELEGRAM_TOKEN}/sendMessage')
-    requests.get(f'{settings.TELEGRAM_URL}{settings.TELEGRAM_TOKEN}/sendMessage', params=params)
+    requests.get(f"{settings.TELEGRAM_URL}{settings.TELEGRAM_TOKEN}/sendMessage", params=params)
 
 
 def create_periodic_task(username, habit_id, hour, minute, week_list, message, chat_id):
     """Создает периодическую задачу"""
+
     # Создаем задачу для повторения
     # Executes every day_of_week morning at hour:minute
     # PeriodicTask.objects.create(
@@ -44,25 +46,25 @@ def create_periodic_task(username, habit_id, hour, minute, week_list, message, c
     # schedule = crontab()
 
     periodic_task, created = PeriodicTask.objects.get_or_create(
-        name=f'habit_{habit_id}_{username}',
-        task='send_information_about_habit',
+        name=f"habit_{habit_id}_{username}",
+        task="send_information_about_habit",
         interval=schedule,
         args=([]),
         kwargs=json.dumps({
-            'message': message,
-            'tg_chat_id': chat_id
+            "message": message,
+            "tg_chat_id": chat_id
         }),
     )
 
     if created:
         periodic_task.expires = datetime.utcnow() + timedelta(seconds=30)
         periodic_task.save()
-    print(f'task={periodic_task}, удалось создать')
+    print(f"task={periodic_task}, удалось создать")
 
 
 def disable_periodic_task(username, habit_id):
-    task = PeriodicTask.objects.get(name=f'habit_{habit_id}_{username}')
+    task = PeriodicTask.objects.get(name=f"habit_{habit_id}_{username}")
     task.enabled = False
     task.save()
 
-    print(f'task={task}, удалось отключить')
+    print(f"task={task}, удалось отключить")
