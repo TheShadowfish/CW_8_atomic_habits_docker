@@ -33,17 +33,12 @@ class HabitTestCase(APITestCase):
             place="Уборка",
             time="18:00:00",
             action="Убраться в квартире",
-            is_nice= False,
+            is_nice=False,
             related=self.habit,
             periodicity=1,
             duration=60,
             is_public=False
         )
-
-        # is_nice = models.BooleanField(default=True, verbose_name='Приятная', choices=IS_NICE_CHOICES)
-        # related = models.ForeignKey('self', on_delete=models.SET_NULL, verbose_name='Связанная с другой привычкой',                                     **NULLABLE)
-        # prize = models.CharField(max_length=100, verbose_name='Вознаграждение', **NULLABLE)
-        # is_public = models.BooleanField(default=True, verbose_name='Публичная', choices=PUBLIC_CHOICES)
 
     def test_create_habit(self):
         """ Тестирование создания привычки """
@@ -87,8 +82,6 @@ class HabitTestCase(APITestCase):
 
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
-
-
     def test_create_habit_logic_good_habits_1(self):
         """ Тестирование работы валидатора логики создания привычек """
         # У приятной привычки не может быть вознаграждения или связанной привычки.
@@ -106,11 +99,9 @@ class HabitTestCase(APITestCase):
         }
 
         response = self.client.post(url, data=data)
-        # data = response.json()
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
-
-    def test_create_habit_logic_good_habits_2 (self):
+    def test_create_habit_logic_good_habits_2(self):
         """ Тестирование работы валидатора логики создания привычек """
         # Исключить одновременный выбор связанной привычки и указания вознаграждения.
 
@@ -127,16 +118,13 @@ class HabitTestCase(APITestCase):
             "prize": "выпить еще больше коньяка"
         }
         response = self.client.post(url, data=data2)
-        # data = response.json()
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
-
-    def test_create_habit_logic_good_habits_3 (self):
+    def test_create_habit_logic_good_habits_3(self):
         """ Тестирование работы валидатора логики создания привычек """
         # В связанные привычки могут попадать только привычки с признаком приятной привычки.
 
         url = reverse("habits:habits_create")
-
 
         data3 = {
             "owner": self.user.pk,
@@ -148,9 +136,7 @@ class HabitTestCase(APITestCase):
             "duration": 60,
             "periodicity": 1,
         }
-        print(f"{data3.get('related').is_nice}")
         response = self.client.post(url, data=data3)
-        # data = response.json()
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
     # def test_datetime_convertion(self):
@@ -166,7 +152,6 @@ class HabitTestCase(APITestCase):
         url = reverse('habits:habits_list')
         response = self.client.get(url)
         data = response.json()
-
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(2, data.get('count'))
@@ -222,8 +207,6 @@ class HabitTestCase(APITestCase):
         url = reverse('habits:public_list')
         response = self.client.get(url)
         data = response.json()
-
-
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(1, data.get('count'))

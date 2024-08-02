@@ -1,4 +1,3 @@
-from django.shortcuts import render
 from rest_framework import generics
 from rest_framework.permissions import IsAuthenticated, AllowAny
 
@@ -13,7 +12,7 @@ class HabitsCreateAPIView(generics.CreateAPIView):
     serializer_class = HabitSerializer
     queryset = Habits.objects.all()
 
-    permission_classes = (IsAuthenticated, )
+    permission_classes = (IsAuthenticated,)
 
     def perform_create(self, serializer):
         habit = serializer.save()
@@ -25,9 +24,9 @@ class HabitsListAPIView(generics.ListAPIView):
     """Отображение привычек авторизованого пользователя"""
     serializer_class = HabitSerializer
     queryset = Habits.objects.all()
-    permission_classes = (IsAuthenticated, )
+    permission_classes = (IsAuthenticated,)
     pagination_class = CustomPagination
-    #
+
     def get_queryset(self):
         queryset = self.queryset.filter(owner=self.request.user)
         return queryset
@@ -58,9 +57,9 @@ class HabitsPublicListAPIView(generics.ListAPIView):
     """Список публичных привычек"""
     serializer_class = HabitSerializer
     queryset = Habits.objects.all()
-    permission_classes = (AllowAny, )
+    permission_classes = (AllowAny,)
     pagination_class = CustomPagination
+
     def get_queryset(self):
         queryset = Habits.objects.filter(is_public=True)
         return queryset
-

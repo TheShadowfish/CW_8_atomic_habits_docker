@@ -179,3 +179,5 @@ CELERY_RESULT_BACKEND = os.getenv("CELERY_RESULT_BACKEND")
 #         "kwargs": {"block_absent": True, "timedelta_days": 30}
 #     }
 # }
+TELEGRAM_URL ="https://api.telegram.org/bot"
+TELEGRAM_TOKEN = os.getenv('TELEGRAM_TOKEN')

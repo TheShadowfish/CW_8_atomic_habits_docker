@@ -5,12 +5,7 @@ from users.apps import UsersConfig
 from users.views import UserRetrieveUpdateAPIView, UserListAPIView, UserCreateAPIView
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
-
 app_name = UsersConfig.name
-
-
-
-
 
 urlpatterns = [
     path("retrieve_update/<int:pk>/", UserRetrieveUpdateAPIView.as_view(), name="users_retrieve_update"),

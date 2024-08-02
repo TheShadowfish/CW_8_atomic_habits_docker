@@ -5,6 +5,7 @@ from django.db import models
 
 NULLABLE = {"blank": True, "null": True}
 
+
 class UserManager(BaseUserManager):
     use_in_migrations = True
 
@@ -68,8 +69,8 @@ class User(AbstractUser):
     tg_chat_id = models.CharField(
         max_length=50,
         **NULLABLE,
-        verbose_name='Телеграм chat-id',
-        help_text='Укажите телеграм chat-id'
+        verbose_name="Телеграм chat-id",
+        help_text="Укажите телеграм chat-id",
     )
 
     USERNAME_FIELD = "email"

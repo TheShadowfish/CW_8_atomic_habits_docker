@@ -24,7 +24,6 @@ class UserListAPIView(ListAPIView):
         return UserLimitedSerializer
 
 
-
 class UserCreateAPIView(CreateAPIView):
     """Создание пользователя"""
     serializer_class = UserSerializer
