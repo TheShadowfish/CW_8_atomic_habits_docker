@@ -20,6 +20,7 @@ class HabitsCreateAPIView(generics.CreateAPIView):
         habit.owner = self.request.user
         habit.save()
 
+
         # Создание периодической задачи (username, habit_id, hour, minute, week_list, message, chat_id):
         hour = habit.time.hour
         minute = habit.time.minute

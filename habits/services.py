@@ -7,7 +7,7 @@ import requests
 import json
 from datetime import datetime, timedelta
 
-from django_celery_beat.models import PeriodicTask
+from django_celery_beat.models import PeriodicTask, IntervalSchedule
 
 
 def send_telegram_message(chat_id, message):
@@ -37,10 +37,17 @@ def create_periodic_task(username, habit_id, hour, minute, week_list, message, c
     # return periodic_task
 
     # interval=crontab(hour=hour, minute=minute, day_of_week=week_list),
+    schedule, created = IntervalSchedule.objects.get_or_create(
+        every=50,
+        period=IntervalSchedule.SECONDS,
+    )
+    # schedule = crontab()
+
     periodic_task, created = PeriodicTask.objects.get_or_create(
         name=f'habit_{habit_id}_{username}',
         task='send_information_about_habit',
-        interval=crontab(),
+        interval=schedule,
+        args=([]),
         kwargs=json.dumps({
             'message': message,
             'tg_chat_id': chat_id

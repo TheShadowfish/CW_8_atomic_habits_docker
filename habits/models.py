@@ -22,7 +22,7 @@ class Habits(models.Model):
 
 
     owner = models.ForeignKey(
-        AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name="Пользователь"
+        AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name="Пользователь", **NULLABLE
     )
     place = models.CharField(max_length=140, verbose_name="Место")
     time = models.TimeField(verbose_name="Время, когда надо выполнить привычку")
