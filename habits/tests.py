@@ -55,7 +55,7 @@ class HabitTestCase(APITestCase):
         self.assertEqual(data.get("duration"), 60)
         self.assertEqual(data.get("periodicity"), 1)
 
-    def test_create_habit_validators(self):
+    def test_create_habit_duration_periodicy_validator(self):
         """ Тестирование работы валидаиора """
 
         url = reverse("habits:habits_create")
@@ -65,7 +65,7 @@ class HabitTestCase(APITestCase):
             "time": "18:00:00",
             "action": "Пойти в магазин за покупками",
             "duration": 180,
-            "periodicity": 1
+            "periodicity": 8
         }
 
         response = self.client.post(url, data=data)
