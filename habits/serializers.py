@@ -6,6 +6,7 @@ from habits.validators import HabitsDurationValidator, HabitsPeriodicyValidator
 
 class HabitSerializer(serializers.ModelSerializer):
     validators = [HabitsDurationValidator(field='duration'), HabitsPeriodicyValidator(field='periodicity')]
+
     class Meta:
         model = Habits
         fields = '__all__'
@@ -16,8 +17,8 @@ class HabitSerializer(serializers.ModelSerializer):
         # Исключить одновременный выбор связанной привычки и указания вознаграждения.
         # В модели не должно быть заполнено одновременно и поле вознаграждения, и поле связанной привычки. Можно заполнить только одно из двух полей.
         if data.get('related') and data.get('prize'):
-             print("CHECK 2 ser log")
-             raise serializers.ValidationError('Может быть либо связанная привычка либо вознаграждение,')
+            print("CHECK 2 ser log")
+            raise serializers.ValidationError('Может быть либо связанная привычка либо вознаграждение,')
 
         if data.get('is_nice'):
             if data.get('related') or data.get('prize'):

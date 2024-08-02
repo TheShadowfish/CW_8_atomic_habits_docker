@@ -1,5 +1,3 @@
-from datetime import datetime
-
 from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APITestCase
@@ -91,7 +89,7 @@ class HabitTestCase(APITestCase):
 
 
 
-    def test_create_habit_logic_good_habits_1 (self):
+    def test_create_habit_logic_good_habits_1(self):
         """ Тестирование работы валидатора логики создания привычек """
         # У приятной привычки не может быть вознаграждения или связанной привычки.
 
@@ -117,9 +115,6 @@ class HabitTestCase(APITestCase):
         # Исключить одновременный выбор связанной привычки и указания вознаграждения.
 
         url = reverse("habits:habits_create")
-
-
-        # url = reverse("habits:habits_create")
         data2 = {
             "owner": self.user.pk,
             "place": "Магазин",

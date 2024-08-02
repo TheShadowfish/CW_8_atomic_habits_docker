@@ -111,3 +111,7 @@
 **Документация** (+)
 
 Для реализации экранов силами фронтенд-разработчиков необходимо настроить вывод документации. При необходимости эндпоинты, на которые документация не будет сгенерирована автоматически, описать вручную.
+
+flake8 --extend-ignore E501 --exclude .git,__pycache__,users/migrations,habits/migrations --max-complexity 10
+
+celery -A config worker --beat --scheduler django --loglevel=info

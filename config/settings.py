@@ -8,8 +8,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 load_dotenv()
 
-SECRET_KEY =  os.getenv("SECRET_KEY")
-#'django-insecure-0_6)n@qek^2wms9*3c73tw)5z_tgd@e&+eo#5$-84e)rbs*8fu'
+SECRET_KEY = os.getenv("SECRET_KEY")
+# 'django-insecure-0_6)n@qek^2wms9*3c73tw)5z_tgd@e&+eo#5$-84e)rbs*8fu'
 
 DEBUG = os.getenv("DEBUG") == "True"
 
@@ -153,7 +153,8 @@ CORS_ALLOWED_ORIGINS = [
 ]
 
 CSRF_TRUSTED_ORIGINS = [
-    "https://read-and-write.example.com", #  Замените на адрес вашего фронтенд-сервера
+    "https://read-and-write.example.com",
+    # Замените на адрес вашего фронтенд-сервера
     # и добавьте адрес бэкенд-сервера
 ]
 
