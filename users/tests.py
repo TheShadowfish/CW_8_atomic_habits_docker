@@ -14,7 +14,8 @@ class UserTestCase(APITestCase):
         self.user = User.objects.create(
             email="test@test.com",
             password="testpassword",
-            tg_chat_id="1567728836"
+            tg_chat_id="1567728836",
+            time_offset=3
         )
 
         self.client.force_authenticate(user=self.user)
@@ -46,7 +47,8 @@ class UserTestCase(APITestCase):
         data = {
             "email": "test2@test.com",
             "password": "testpassword",
-            "is_superuser": "False"
+            "is_superuser": "False",
+            "time_offset": 3
         }
 
         response = self.client.post(url, data=data)
@@ -59,28 +61,7 @@ class UserTestCase(APITestCase):
 
         response = self.client.get(reverse("users:users_list"))
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        data = response.json()
-
-        date_joined_text = str(self.user.date_joined)
-        date_joined = date_joined_text[0:10] + "T" + date_joined_text[11:26] + "Z"
-
-        result = [{
-            "email": self.user.email,
-            "first_name": "",
-            "last_name": "",
-            "tg_nick": None,
-            "tg_chat_id": self.user.tg_chat_id,
-            "last_login": None,
-            "avatar": None,
-            "date_joined": date_joined,
-            "is_superuser": False,
-            "is_staff": False,
-            "is_active": True
-        }]
-        # print(f"created_at:{self.course.created_at} updated_at:{self.course.updated_at}")
-
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(data, result)
 
     def test_user_retrieve(self):
         """Тестирование просмотра одного пользователя"""

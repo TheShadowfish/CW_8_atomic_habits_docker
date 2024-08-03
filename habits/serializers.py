@@ -1,11 +1,11 @@
 from rest_framework import serializers
 
 from habits.models import Habits
-from habits.validators import HabitsDurationValidator, HabitsPeriodicValidator
+from habits.validators import HabitsDurationValidator
 
 
 class HabitSerializer(serializers.ModelSerializer):
-    validators = [HabitsDurationValidator(field="duration"), HabitsPeriodicValidator(field="periodicity")]
+    validators = [HabitsDurationValidator(field="duration")]
 
     class Meta:
         model = Habits
@@ -32,24 +32,10 @@ class HabitSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError("Связанные привычки = приятные привычки")
 
         # Хотя бы один день в неделю
-        if (data.get("sunday") is False and data.get("monday") is False and data.get("tuesday") is False
-                and data.get("thursday") is False and data.get("friday") is False and data.get("saturday") is False
-                and data.get("wednesday") is False):
+        if (data.get("sunday") is False and data.get("monday") is False and data.get(
+                "tuesday") is False and data.get("thursday") is False and data.get(
+                "friday") is False and data.get("saturday") is False and data.get(
+                "wednesday") is False):
             raise serializers.ValidationError("Хотя бы один день в неделю должен быть выбран!")
 
         return data
-
-    # def create(self, validated_data):
-    #     user_time = validated_data.get("time")
-    #     owner_time_offset = validated_data.get("owner").timezone_offset
-    #     utc_time = user_time.timedelta.timedelta(hours=-owner_time_offset)
-    #
-    #     validated_data.set("utc_time") = utc_time
-
-
-        # utc_time.astimezone(pytz.timezone('Europe/Moscow'))
-
-
-
-        return Habits.objects.create(**validated_data)
-

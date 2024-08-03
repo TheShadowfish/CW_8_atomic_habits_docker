@@ -32,6 +32,9 @@ class Habits(models.Model):
         verbose_name="Время исполнения привычки в формате UTC, вычисляется автоматически по time_offset пользователя",
         **NULLABLE
     )
+    weekday_offset = models.IntegerField(
+        default=0, verbose_name="Смещение дня недели относительно UTC. Заполняется автоматически."
+    )
     is_nice = models.BooleanField(
         default=True, verbose_name="Приятная", choices=IS_NICE_CHOICES
     )
