@@ -22,3 +22,8 @@ def send_information_about_habit(message, tg_chat_id):
 #         email_list.append(dog.owner.email)
 #         if dog.owner.tg_chat_id:
 #             send_telegram_message(dog.owner.tg_chat_id, message)
+
+@shared_task
+def find_habits_in_list():
+    print("Здесь будет парсится кверисет?")
+

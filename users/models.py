@@ -68,7 +68,6 @@ class User(AbstractUser):
 
     tg_chat_id = models.CharField(
         max_length=50,
-        **NULLABLE,
         verbose_name="Телеграм chat-id",
         help_text="Укажите телеграм chat-id",
     )

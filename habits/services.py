@@ -47,7 +47,7 @@ def create_periodic_task(username, habit_id, hour, minute, week_list, message, c
 
     periodic_task, created = PeriodicTask.objects.get_or_create(
         name=f"habit_{habit_id}_{username}",
-        task="send_information_about_habit",
+        task="habits.tasks.send_information_about_habit",
         interval=schedule,
         args=([]),
         kwargs=json.dumps({
