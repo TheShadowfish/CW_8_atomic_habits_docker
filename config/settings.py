@@ -160,6 +160,7 @@ CORS_ALLOW_ALL_ORIGINS = False
 CELERY_TIMEZONE = TIME_ZONE
 CELERY_TASK_TRACK_STARTED = True
 CELERY_TASK_TIME_LIMIT = 30 * 60
+CELERY_ENABLE_UTC = False
 
 # set the celery broker url
 CELERY_BROKER_URL = os.getenv("CELERY_BROKER_URL")
@@ -168,8 +169,8 @@ CELERY_BROKER_URL = os.getenv("CELERY_BROKER_URL")
 CELERY_RESULT_BACKEND = os.getenv("CELERY_RESULT_BACKEND")
 
 CELERY_BEAT_SCHEDULE = {
-    "habits.tasks.find_habits_in_list": {
-        "task": "habits.tasks.find_habits_in_list",
+    "habits.tasks.find_all_habits": {
+        "task": "habits.tasks.find_all_habits",
         "schedule": timedelta(minutes=1),  # Run every day at 00:00
     }
 }

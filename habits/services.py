@@ -13,11 +13,13 @@ def send_telegram_message(chat_id, message):
     """Функция отправки сообщения в телеграм"""
 
     print("Пошла вода в хату!")
+    print(f"message= {message} to id {chat_id}")
+
     params = {
         "text": message,
         "chat_id": chat_id,
     }
-    # print(f'{settings.TELEGRAM_URL}{settings.TELEGRAM_TOKEN}/sendMessage')
+    print(f'{settings.TELEGRAM_URL}{settings.TELEGRAM_TOKEN}/sendMessage')
     requests.get(f"{settings.TELEGRAM_URL}{settings.TELEGRAM_TOKEN}/sendMessage", params=params)
 
 

@@ -71,6 +71,11 @@ class User(AbstractUser):
         verbose_name="Телеграм chat-id",
         help_text="Укажите телеграм chat-id",
     )
+    time_offset = models.IntegerField(
+        default=3,
+        verbose_name='Смещение часового пояса',
+        help_text='От -12 до +14, по умолчанию UTC+3 (Московское время)'
+    )
 
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []

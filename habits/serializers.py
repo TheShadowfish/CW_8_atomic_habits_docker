@@ -38,3 +38,18 @@ class HabitSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError("Хотя бы один день в неделю должен быть выбран!")
 
         return data
+
+    # def create(self, validated_data):
+    #     user_time = validated_data.get("time")
+    #     owner_time_offset = validated_data.get("owner").timezone_offset
+    #     utc_time = user_time.timedelta.timedelta(hours=-owner_time_offset)
+    #
+    #     validated_data.set("utc_time") = utc_time
+
+
+        # utc_time.astimezone(pytz.timezone('Europe/Moscow'))
+
+
+
+        return Habits.objects.create(**validated_data)
+

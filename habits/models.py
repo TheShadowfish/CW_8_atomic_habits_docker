@@ -28,6 +28,10 @@ class Habits(models.Model):
     action = models.CharField(
         max_length=140, verbose_name="Действие, которое надо сделать"
     )
+    utc_time = models.TimeField(
+        verbose_name="Время исполнения привычки в формате UTC, вычисляется автоматически по time_offset пользователя",
+        **NULLABLE
+    )
     is_nice = models.BooleanField(
         default=True, verbose_name="Приятная", choices=IS_NICE_CHOICES
     )

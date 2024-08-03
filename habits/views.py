@@ -1,3 +1,5 @@
+from datetime import time
+
 from rest_framework import generics
 from rest_framework.permissions import IsAuthenticated, AllowAny
 
@@ -19,7 +21,34 @@ class HabitsCreateAPIView(generics.CreateAPIView):
     def perform_create(self, serializer):
         habit = serializer.save()
         habit.owner = self.request.user
+
+        habit.utc_time = habit.time
+        owner_time_offset = self.request.user.time_offset
+        hour = habit.time.hour - owner_time_offset
+        if hour > 24:
+            hour -= 24
+        elif hour < 0:
+            hour = 24 + hour
+
+        minute = int(habit.time.minute)
+
+        habit.utc_time = time(hour, minute, 0, 0)
+
+        # time(16, 20, 00)
+
+
+
+
+        # string_time = "10:30"
+        # time_object = datetime.strptime(user_time, "%H:%M").utcfromtimestamp()
+        print(str(habit.utc_time))
+
+        # utc_time = str(time_object)
+        # user_time.timedelta(hours=-owner_time_offset)
+        # habit.utc_time = user_time
+
         habit.save()
+
 
         # Создание периодической задачи (username, habit_id, hour, minute, week_list, message, chat_id):
         hour = habit.time.hour
@@ -45,8 +74,8 @@ class HabitsCreateAPIView(generics.CreateAPIView):
         message = f"я буду {habit.action} в {habit.place} в {habit.time}"
         print(f"{message} to {self.request.user.tg_chat_id}")
 
-        create_periodic_task(self.request.user.username, habit.pk, hour, minute, week_list, message,
-                             self.request.user.tg_chat_id)
+        # create_periodic_task(self.request.user.username, habit.pk, hour, minute, week_list, message,
+        #                      self.request.user.tg_chat_id)
 
 
 class HabitsListAPIView(generics.ListAPIView):
