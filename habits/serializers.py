@@ -4,8 +4,13 @@ from habits.models import Habits
 from habits.validators import HabitsDurationValidator
 
 
+class HabitsPeriodicValidator:
+    pass
+
+
 class HabitSerializer(serializers.ModelSerializer):
-    validators = [HabitsDurationValidator(field="duration")]
+    # validators = [HabitsDurationValidator(field="duration")]
+    validators = [HabitsDurationValidator(field="duration"), HabitsPeriodicValidator(field="periodicity")]
 
     class Meta:
         model = Habits
