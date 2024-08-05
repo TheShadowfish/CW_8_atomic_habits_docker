@@ -23,7 +23,7 @@ class HabitsDurationValidator:
 def validate_related_or_prize(data):
     """Валидация выбора связанной привычки и вознаграждения"""
 
-    message = "Может быть выбрана либо связанная привычка либо вознаграждение."
+    message = "Может быть выбрана либо связанная привычка либо вознаграждение. "
     if data.get("related") and data.get("prize"):
         return message
     else:
@@ -31,7 +31,7 @@ def validate_related_or_prize(data):
 
 def validate_related_is_nice(data):
     """Валидация на сохранение приятной привычки в поле связанной привычки."""
-    message = "Связанные привычки должны быть приятными."
+    message = "Связанные привычки должны быть приятными. "
     if data.get("related") and (not data.get("related").is_nice):
         return message
     else:
@@ -39,7 +39,7 @@ def validate_related_is_nice(data):
 
 def validate_nice_navent_prize_and_related(data):
     """Валидация на наличие вознаграждения или связанной привычки у приятной привычки."""
-    message = "У приятной привычки не может быть связанной привычки или вознаграждения"
+    message = "У приятной привычки не может быть связанной привычки или вознаграждения. "
     if data.get("is_nice"):
         if data.get("related") or data.get("prize"):
             return message
@@ -48,7 +48,7 @@ def validate_nice_navent_prize_and_related(data):
 
 def periodicy_is_often_then_once_a_week(data):
     """Привычка должна исполняться хотя бы один день в неделю"""
-    message = "Периодичность привычки не мене 1 раза в 7 дней. Хотя бы один день в неделю должен быть выбран!"
+    message = "Периодичность привычки не мене 1 раза в 7 дней. Хотя бы один день в неделю должен быть выбран! "
 
     if (data.get("sunday") is False and data.get("monday") is False and data.get(
             "tuesday") is False and data.get("thursday") is False and data.get(
