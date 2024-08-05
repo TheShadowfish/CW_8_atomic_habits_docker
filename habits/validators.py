@@ -10,14 +10,15 @@ class HabitsDurationValidator:
         if duration > 120:
             raise serializers.ValidationError("Длительность привычки не может быть больше 120 минут")
 
-    class HabitsPeriodicValidator:
-        def __init__(self, field):
-            self.field = field
 
-        def __call__(self, value):
-            periodicity = dict(value).get(self.field)
-            if 7 < periodicity or periodicity < 1:
-                raise serializers.ValidationError("Привычка должна иметь период повторения от 1 дня до 7 дней.")
+class HabitsPeriodicValidator:
+    def __init__(self, field):
+        self.field = field
+
+    def __call__(self, value):
+        periodicity = dict(value).get(self.field)
+        if 7 < periodicity or periodicity < 1:
+            raise serializers.ValidationError("Привычка должна иметь период повторения от 1 дня до 7 дней.")
 
 
 def validate_related_or_prize(data):
@@ -27,7 +28,8 @@ def validate_related_or_prize(data):
     if data.get("related") and data.get("prize"):
         return message
     else:
-        return None
+        return ""
+
 
 def validate_related_is_nice(data):
     """Валидация на сохранение приятной привычки в поле связанной привычки."""
@@ -35,7 +37,8 @@ def validate_related_is_nice(data):
     if data.get("related") and (not data.get("related").is_nice):
         return message
     else:
-        return None
+        return ""
+
 
 def validate_nice_navent_prize_and_related(data):
     """Валидация на наличие вознаграждения или связанной привычки у приятной привычки."""
@@ -44,7 +47,8 @@ def validate_nice_navent_prize_and_related(data):
         if data.get("related") or data.get("prize"):
             return message
     else:
-        return None
+        return ""
+
 
 def periodicy_is_often_then_once_a_week(data):
     """Привычка должна исполняться хотя бы один день в неделю"""
@@ -52,9 +56,7 @@ def periodicy_is_often_then_once_a_week(data):
 
     if (data.get("sunday") is False and data.get("monday") is False and data.get(
             "tuesday") is False and data.get("thursday") is False and data.get(
-            "friday") is False and data.get("saturday") is False and data.get(
-            "wednesday") is False):
+            "friday") is False and data.get("saturday") is False and data.get("wednesday") is False):
         return message
     else:
-        return None
-
+        return ""

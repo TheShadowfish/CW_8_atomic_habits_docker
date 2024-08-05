@@ -34,9 +34,11 @@ class UserTestCase(APITestCase):
         response = self.client.post(url, data=data)
         data = response.json()
 
+        print(data)
+
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(data.get("email"), "test2@test.com")
-        # self.assertEqual(data.get("password"), "testpassword")
+        self.assertEqual(data.get("password"), None)
         self.assertEqual(data.get("tg_chat_id"), "1567728836")
         self.assertEqual(data.get("is_superuser"), False)
 
@@ -72,7 +74,7 @@ class UserTestCase(APITestCase):
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(data.get("email"), "test@test.com")
-        self.assertEqual(data.get("password"), "testpassword")
+        self.assertEqual(data.get("password"), None)
         self.assertEqual(data.get("tg_chat_id"), "1567728836")
         self.assertEqual(data.get("is_superuser"), False)
 
