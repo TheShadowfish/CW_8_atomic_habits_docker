@@ -37,6 +37,20 @@ services:
     env_file:
       - .env
 
+  nginx:
+    build: # создать Docker-образ из DockerFile
+    ports: # проброс портов
+      - "80:80"
+    restart: on-failure
+    depends_on:
+      - redis
+      - db
+      - celery
+      - celery-beat
+      - app
+    volumes: #  монтирование директорий, директория-на-хост-машине: директория-в-докере
+      - .:/app
+
   celery:
     build: .
     tty: true
