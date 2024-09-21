@@ -38,18 +38,9 @@ services:
       - .env
 
   nginx:
-    build: # создать Docker-образ из DockerFile
+    image: nginx:latest
     ports: # проброс портов
-      - "80:80"
-    restart: on-failure
-    depends_on:
-      - redis
-      - db
-      - celery
-      - celery-beat
-      - app
-    volumes: #  монтирование директорий, директория-на-хост-машине: директория-в-докере
-      - .:/app
+      - "0:80"
 
   celery:
     build: .
